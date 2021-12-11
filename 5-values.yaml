@@ -1,0 +1,29 @@
+nameOverride: "ratings"
+
+image:
+  repository: "docker.io/istio/examples-bookinfo-ratings-v1"
+  tag: "1.16.2"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 9080
+
+container:
+  port: 9080
+  livenessProbe: /ratings/1
+  readinessProbe: /ratings/1
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
